@@ -4,18 +4,22 @@
 struct Accounts{
 	int Role;
 	int Count;
-	char *AccountNo;
-	char *UserName;
-	char *Password;
-};
-void disp(struct Accounts *a1)
+	char AccountNo[10];
+	char Password[10];
+	char UserName[10];
+} a1[100];
+void disp(struct Accounts a1[],int size)
 {
-	printf("%s %s %s %d %d",a1[0].AccountNo,a1[0].UserName,a1[0].Password,a1[0].Role,a1[0].Count);
+	int i;
+	for(i=0;i<size;i++)
+	{
+		printf("%s %s %s %d %d\n",a1[i].AccountNo,a1[i].UserName,a1[i].Password,a1[i].Role,a1[i].Count);
+	}
 }
 
 int main()
 {
-	struct Accounts a1[100],temp;
+	struct Accounts a1[100];
 	int i=0;
 	FILE *fp;
 	fp = fopen("Files/AccountDetails.csv", "a+");
@@ -29,20 +33,15 @@ int main()
 		fgets(str, BUFF, fp);
 		while(fgets(str, BUFF, fp)!=NULL)
 		{
-			 a1[i].AccountNo=strtok(str,",");
-			 a1[i].UserName=strtok(NULL,",");
-			 a1[i].Password=strtok(NULL,",");
+			 strcpy(a1[i].AccountNo,strtok(str,","));
+			 strcpy(a1[i].UserName,strtok(NULL,","));
+			 strcpy(a1[i].Password,strtok(NULL,","));
 			 a1[i].Role=atoi(strtok(NULL,","));
 			 a1[i].Count=atoi(strtok(NULL,"\n"));
-			// printf("%s\n",strtok(str,","));
-			// printf("%s\n",strtok(NULL,","));
-			// printf("%s\n",strtok(NULL,","));
-			// printf("%d\n",atoi(strtok(NULL,",")));
-			// printf("%d\n",atoi(strtok(NULL,"\n")));
-			 printf("%s %s %s %d %d\n",a1[0].AccountNo,a1[0].UserName,a1[0].Password,a1[0].Role,a1[0].Count);
+			// printf("%s %s %d %d\n",a1[i].AccountNo,a1[i].UserName,a1[i].Role,a1[i].Count);
 			 i++;
 		}
 		fclose(fp);
 	}
-	//disp(a1);
+	disp(a1,i);
 }
